@@ -304,6 +304,14 @@ window.addEventListener('DOMContentLoaded', function() {
     let slideIndex = 1;
     let offset = 0;
 
+    function changeNumOfSlides(slideIndex, slides, current) {
+        if (slides.length <10) {
+            current.textContent = `0${slideIndex}`;
+        } else {
+            current.textContent = slideIndex;
+        }
+    }
+
     if (slides.length < 10) {
         total.textContent = `0${slides.length}`;
         current.textContent = `0${slideIndex}`;
@@ -324,6 +332,8 @@ window.addEventListener('DOMContentLoaded', function() {
     });
 
     slider.style.position = 'relative';
+
+    // slider navigation 
 
     const indicators = document.createElement('ol'),
           dots = [];
@@ -367,11 +377,20 @@ window.addEventListener('DOMContentLoaded', function() {
         dots.push(dot);
     }
 
+    function deleteNotDigits(str) {
+        return +str.replace(/\D/g, '');
+    }
+
+    function changeCurrentNavigaton(dots, slideIndex) {
+        dots.forEach(dot => dot.style.opacity = '.5');
+        dots[slideIndex - 1].style.opacity = '1';
+    }
+
     next.addEventListener('click', () => {
-        if (offset == +width.slice(0, width.length - 2) * (slides.length - 1)) {
+        if (offset == deleteNotDigits(width) * (slides.length - 1)) {
             offset = 0;
         } else {
-            offset += +width.slice(0, width.length - 2);
+            offset += +width.replace(/\D/g, '');
         }
 
         slidesField.style.transform = `translateX(-${offset}px)`;
@@ -382,21 +401,26 @@ window.addEventListener('DOMContentLoaded', function() {
             slideIndex++;
         }
 
-        if (slides.length <10) {
-            current.textContent = `0${slideIndex}`;
-        } else {
-            current.textContent = slideIndex;
-        }
+        changeNumOfSlides(slideIndex, slides, current);
 
-        dots.forEach(dot => dot.style.opacity = '.5');
-        dots[slideIndex - 1].style.opacity = '1';
+        changeCurrentNavigaton(dots, slideIndex);
+
+
+        // if (slides.length <10) {
+        //     current.textContent = `0${slideIndex}`;
+        // } else {
+        //     current.textContent = slideIndex;
+        // }
+
+        // dots.forEach(dot => dot.style.opacity = '.5');
+        // dots[slideIndex - 1].style.opacity = '1';
     });
 
     prev.addEventListener('click', () => {
         if (offset == 0) {
-            offset = +width.slice(0, width.length - 2) * (slides.length - 1);
+            offset = deleteNotDigits(width) * (slides.length - 1);
         } else {
-            offset -= +width.slice(0, width.length - 2);
+            offset -= deleteNotDigits(width);
         }
 
         slidesField.style.transform = `translateX(-${offset}px)`;
@@ -406,15 +430,18 @@ window.addEventListener('DOMContentLoaded', function() {
         } else {
             slideIndex--;
         }
+        changeNumOfSlides(slideIndex, slides, current);
 
-        if (slides.length <10) {
-            current.textContent = `0${slideIndex}`;
-        } else {
-            current.textContent = slideIndex;
-        }
+        changeCurrentNavigaton(dots, slideIndex);
 
-        dots.forEach(dot => dot.style.opacity = '.5');
-        dots[slideIndex - 1].style.opacity = '1';
+        // if (slides.length <10) {
+        //     current.textContent = `0${slideIndex}`;
+        // } else {
+        //     current.textContent = slideIndex;
+        // }
+
+        // dots.forEach(dot => dot.style.opacity = '.5');
+        // dots[slideIndex - 1].style.opacity = '1';
     });
 
     dots.forEach(dot => {
@@ -422,15 +449,17 @@ window.addEventListener('DOMContentLoaded', function() {
             const slideTo = e.target.getAttribute('data-slide-to');
 
             slideIndex = slideTo;
-            offset = +width.slice(0, width.length - 2) * (slideTo - 1);
+            offset = deleteNotDigits(width) * (slideTo - 1);
 
             slidesField.style.transform = `translateX(-${offset}px)`;
 
-            if (slides.length <10) {
-                current.textContent = `0${slideIndex}`;
-            } else {
-                current.textContent = slideIndex;
-            }
+            changeNumOfSlides(slideIndex, slides, current);
+
+            // if (slides.length < 10) {
+            //     current.textContent = `0${slideIndex}`;
+            // } else {
+            //     current.textContent = slideIndex;
+            // }
 
             dots.forEach(dot => dot.style.opacity = '.5');
             dots[slideIndex - 1].style.opacity = '1';
