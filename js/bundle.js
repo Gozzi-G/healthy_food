@@ -413,17 +413,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-function slider() {
+function slider({container, slide, nextArrow, prevArrow, totalCounter, currentCounter, wrapper, field}) {
     //Slider
 
-    const slides = document.querySelectorAll('.offer__slide'),
-        slider = document.querySelector('.offer__slider'),
-        prev = document.querySelector('.offer__slider-prev'),
-        next = document.querySelector('.offer__slider-next'),
-        total = document.querySelector('#total'),
-        current = document.querySelector('#current'),
-        slidesWrapper = document.querySelector('.offer__slider-wrapper'),
-        slidesField = document.querySelector('.offer__slider-inner'),
+    const slides = document.querySelectorAll(slide),
+        slider = document.querySelector(container),
+        prev = document.querySelector(prevArrow),
+        next = document.querySelector(nextArrow),
+        total = document.querySelector(totalCounter),
+        current = document.querySelector(currentCounter),
+        slidesWrapper = document.querySelector(wrapper),
+        slidesField = document.querySelector(field),
         width = window.getComputedStyle(slidesWrapper).width;
 
     let slideIndex = 1;
@@ -716,10 +716,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => __WEBPACK_DEFAULT_EXPORT__
 /* harmony export */ });
-function timer() {
-    // Timer
-
-    const deadline = '2020-05-11';
+function timer(id, deadline) {
 
     function getTimeRemaining(endtime) {
         const t = Date.parse(endtime) - Date.parse(new Date()),
@@ -766,11 +763,11 @@ function timer() {
 
             if (t.total <= 0) {
                 clearInterval(timeInterval);
-            }
+            } 
         }
     }
 
-    setClock('.timer', deadline);
+    setClock(id, deadline);
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (timer);
@@ -808,14 +805,23 @@ window.addEventListener('DOMContentLoaded', function () {
 
     (0,_modules_tabs__WEBPACK_IMPORTED_MODULE_0__.default)('.tabheader__item', '.tabcontent', '.tabheader__items', 'tabheader__item_active');
     (0,_modules_modal__WEBPACK_IMPORTED_MODULE_1__.default)('[data-modal]', '.modal', modalTimerId);
-    (0,_modules_timer__WEBPACK_IMPORTED_MODULE_2__.default)();
+    (0,_modules_timer__WEBPACK_IMPORTED_MODULE_2__.default)('.timer', '2020-12-31');
     (0,_modules_cards__WEBPACK_IMPORTED_MODULE_3__.default)();
     (0,_modules_calc__WEBPACK_IMPORTED_MODULE_4__.default)();
     (0,_modules_forms__WEBPACK_IMPORTED_MODULE_5__.default)('form', modalTimerId);
-    (0,_modules_slider__WEBPACK_IMPORTED_MODULE_6__.default)();
+    (0,_modules_slider__WEBPACK_IMPORTED_MODULE_6__.default)({
+        container: '.offer__slider',
+        slide: '.offer__slide',
+        prevArrow: '.offer__slider-prev',
+        nextArrow: '.offer__slider-next',
+        totalCounter: '#total',
+        currentCounter: '#current',
+        wrapper: '.offer__slider-wrapper',
+        field: '.offer__slider-inner'
+    });
 
 
-});
+}); 
 
 /***/ }),
 
